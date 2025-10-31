@@ -6,17 +6,46 @@
   </head>
   <body>
     <h2>Ваша команда для бота:</h2>
-    <h2 id="command"></h2>
+    <div id="command-container" style="cursor: pointer; user-select: none;" title="Нажмите, чтобы скопировать">
+      <h2 id="command"></h2>
+    </div>
 
+<script>
+  const code = new URLSearchParams(window.location.search).get('code');
 
-    <script>
-      // Получаем код из параметров URL
-      const code = new URLSearchParams(window.location.search).get('code');
+  if (code) {
+    const fullCommand = `/da_auth ${code}`;
+    
+    // Функция усечения с многоточием посередине
+    function shorten(str, start = 10, end = 6) {
+      if (str.length <= start + end + 3) return str;
+      return str.substring(0, start) + '...' + str.substring(str.length - end);
+    }
 
-      if (code) {
-        // Используем tg://resolve чтобы Telegram гарантированно вызвал /start
-        document.getElementById('command').innerText = `/da_auth ${code}`;
+    const shortCommand = shorten(fullCommand);
+
+    const commandEl = document.getElementById('command');
+    commandEl.innerText = shortCommand;
+    commandEl.title = fullCommand; // Показ полной команды при наведении
+
+    // Копирование при клике
+    document.getElementById('command-container').onclick = async () => {
+      try {
+        await navigator.clipboard.writeText(fullCommand);
+        // Опционально: визуальная обратная связь
+        const original = commandEl.innerText;
+        commandEl.innerText = '✅ Скопировано!';
+        setTimeout(() => {
+          commandEl.innerText = shortCommand;
+        }, 1500);
+      } catch (err) {
+        console.error('Не удалось скопировать:', err);
+        alert('Не удалось скопировать команду. Попробуйте вручную.');
       }
-    </script>
+    };
+  } else {
+    document.getElementById('command').innerText = '❌ Код не найден';
+  }
+</script>
   </body>
 </html>
