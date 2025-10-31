@@ -3,9 +3,12 @@
   <head>
     <meta charset="UTF-8">
     <title>Перенаправление в Telegram</title>
-
+  </head>
+  <body>
     <h2>Ваша команда для бота:</h2>
     <h2 id="command"></h2>
+
+
     <script>
       // Получаем код из параметров URL
       const code = new URLSearchParams(window.location.search).get('code');
@@ -15,8 +18,5 @@
         document.getElementById('command').innerText = `/da_auth ${code}`;
       }
     </script>
-  </head>
-  <body>
-    <p>Перенаправляем в Telegram...</p>
   </body>
 </html>
