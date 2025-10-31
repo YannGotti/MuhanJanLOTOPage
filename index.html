@@ -10,11 +10,6 @@
       if (code) {
         // Используем tg://resolve чтобы Telegram гарантированно вызвал /start
         window.location.href = `tg://resolve?domain=MuhanJanLOTO_bot&start=da_auth_${code}`;
-
-        // На случай, если tg:// не сработает (например, браузер на ПК)
-        setTimeout(() => {
-          window.location.href = `https://t.me/MuhanJanLOTO_bot?start=da_auth_${code}`;
-        }, 2000);
       } else {
         document.body.innerHTML = "<p>❌ Код не найден в URL</p>";
       }
